@@ -1,8 +1,16 @@
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
+import {
+  HeadContent,
+  Outlet,
+  Scripts,
+  createRootRoute,
+} from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-
+import { QueryClientProvider } from '@tanstack/react-query'
 import appCss from '../styles.css?url'
+import { AppLayout } from '@/components/app-layout'
+import { Toaster } from '@/components/ui/sonner'
+import { queryClient } from '@/lib/queries'
 
 export const Route = createRootRoute({
   head: () => ({
@@ -15,7 +23,7 @@ export const Route = createRootRoute({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'Agent Sentiment Analyzer',
       },
     ],
     links: [
@@ -27,6 +35,7 @@ export const Route = createRootRoute({
   }),
 
   shellComponent: RootDocument,
+  component: RootComponent,
 })
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -36,7 +45,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+        <Toaster />
         <TanStackDevtools
           config={{
             position: 'bottom-right',
@@ -51,5 +63,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  )
+}
+
+function RootComponent() {
+  return (
+    <AppLayout>
+      <Outlet />
+    </AppLayout>
   )
 }
