@@ -1,14 +1,7 @@
-import type { AgentWithData, Platform } from '@/lib/data'
 import { ArrowLeftIcon } from '@phosphor-icons/react'
+import type { AgentWithData, Platform } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-
-const platformLabels: Record<Platform, string> = {
-  'x.com': 'X',
-  instagram: 'Instagram',
-  reddit: 'Reddit',
-  tiktok: 'TikTok',
-}
 
 interface AgentHeaderProps {
   agent: AgentWithData
@@ -40,8 +33,12 @@ export function AgentHeader({ agent, onNewAgent, onBack }: AgentHeaderProps) {
           <span>Created {agent.createdAt}</span>
           <div className="flex gap-1">
             {agent.platforms.map((platform) => (
-              <Badge key={platform} variant="outline" className="text-[10px]">
-                {platformLabels[platform]}
+              <Badge
+                key={platform}
+                variant="outline"
+                className="text-[10px] capitalize"
+              >
+                {platform}
               </Badge>
             ))}
           </div>
