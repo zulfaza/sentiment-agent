@@ -3,9 +3,9 @@ import { ChartBarIcon, CreditCardIcon, UserIcon } from '@phosphor-icons/react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
-  { href: '/', label: 'Analytics', icon: ChartBarIcon },
-  { href: '/billing', label: 'Billing', icon: CreditCardIcon },
-  { href: '/account', label: 'Account', icon: UserIcon },
+  { href: '/dashboard', label: 'Analytics', icon: ChartBarIcon },
+  { href: '/dashboard/billing', label: 'Billing', icon: CreditCardIcon },
+  { href: '/dashboard/account', label: 'Account', icon: UserIcon },
 ]
 
 export function Sidebar() {
