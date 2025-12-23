@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { useState } from 'react'
 import {
   CaretDownIcon,
   ChartLineUpIcon,
@@ -7,7 +7,9 @@ import {
   LightningIcon,
   RobotIcon,
 } from '@phosphor-icons/react'
-import { useState } from 'react'
+import { Link, createFileRoute } from '@tanstack/react-router'
+
+import { Badge } from '@/components/ui/badge'
 import {
   Card,
   CardContent,
@@ -16,7 +18,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/')({

@@ -1,14 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
-import { toast } from 'sonner'
 import { RobotIcon } from '@phosphor-icons/react'
+import { createFileRoute } from '@tanstack/react-router'
+import { toast } from 'sonner'
+
 import type { CreateAgentInput } from '@/lib/data'
-import { AgentList } from '@/components/agent-list'
 import { AgentHeader } from '@/components/agent-header'
-import { SentimentStats } from '@/components/sentiment-stats'
-import { SentimentChart } from '@/components/sentiment-chart'
-import { RecentMentions } from '@/components/recent-mentions'
+import { AgentList } from '@/components/agent-list'
 import { NewAgentModal } from '@/components/new-agent-modal'
+import { RecentMentions } from '@/components/recent-mentions'
+import { SentimentChart } from '@/components/sentiment-chart'
+import { SentimentStats } from '@/components/sentiment-stats'
 import { Button } from '@/components/ui/button'
 import {
   Empty,

@@ -1,8 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
 
@@ -34,7 +35,7 @@ type Invoice = {
 type BillingData = {
   usage: UsageData
   card: CardData
-  invoices: Invoice[]
+  invoices: Array<Invoice>
 }
 
 // Simulated API fetch
