@@ -1,4 +1,10 @@
 // Types
+export interface User {
+  id: string
+  name: string
+  email: string
+}
+
 export type AgentType = 'brand' | 'person'
 export type Platform = 'x.com' | 'instagram' | 'reddit' | 'tiktok'
 export type Sentiment = 'positive' | 'neutral' | 'negative'
@@ -410,4 +416,27 @@ export async function createAgent(
 export const mockAgents = agents
 export function getAgentById(id: string): AgentWithData | undefined {
   return agents.find((agent) => agent.id === id)
+}
+
+// User data
+let currentUser: User = {
+  id: '1',
+  name: 'John Doe',
+  email: 'john@example.com',
+}
+
+export async function fetchUser(): Promise<User> {
+  await delay(200)
+  return { ...currentUser }
+}
+
+export async function updateUser(data: Partial<User>): Promise<User> {
+  await delay(500)
+  currentUser = { ...currentUser, ...data }
+  return { ...currentUser }
+}
+
+export async function logout(): Promise<void> {
+  await delay(300)
+  // Mock logout - in real app would clear session/tokens
 }

@@ -1,16 +1,11 @@
 import {
-  useQuery,
-  useMutation,
-  useQueryClient,
   QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
 } from '@tanstack/react-query'
-import {
-  fetchAgents,
-  fetchAgentById,
-  createAgent,
-  type CreateAgentInput,
-  type AgentWithData,
-} from './data'
+import { createAgent, fetchAgentById, fetchAgents } from './data'
+import type { AgentWithData, CreateAgentInput } from './data'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -29,7 +24,7 @@ export function useAgents() {
 }
 
 export function useAgent(id: string | null) {
-  const queryClient = useQueryClient()
+  const qc = useQueryClient()
 
   return useQuery({
     queryKey: ['agent', id],
@@ -42,7 +37,7 @@ export function useAgent(id: string | null) {
     select: (data) => {
       // When agent becomes ready, update it in the agents list cache
       if (data?.status === 'ready') {
-        queryClient.setQueryData<AgentWithData[]>(['agents'], (oldAgents) => {
+        qc.setQueryData<Array<AgentWithData>>(['agents'], (oldAgents) => {
           if (!oldAgents) return oldAgents
           return oldAgents.map((agent) => (agent.id === data.id ? data : agent))
         })
@@ -53,12 +48,12 @@ export function useAgent(id: string | null) {
 }
 
 export function useCreateAgent() {
-  const queryClient = useQueryClient()
+  const qc = useQueryClient()
 
   return useMutation({
     mutationFn: (input: CreateAgentInput) => createAgent(input),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['agents'] })
+      qc.invalidateQueries({ queryKey: ['agents'] })
     },
   })
 }
