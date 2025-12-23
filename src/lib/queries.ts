@@ -4,8 +4,9 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query'
+
 import { createAgent, fetchAgentById, fetchAgents } from './data'
-import type { AgentWithData, CreateAgentInput } from './data'
+import type { CreateAgentInput } from './data'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,8 +25,6 @@ export function useAgents() {
 }
 
 export function useAgent(id: string | null) {
-  const qc = useQueryClient()
-
   return useQuery({
     queryKey: ['agent', id],
     queryFn: () => fetchAgentById(id!),
@@ -33,16 +32,6 @@ export function useAgent(id: string | null) {
     refetchInterval: (query) => {
       // Poll every 1s while analyzing
       return query.state.data?.status === 'analyzing' ? 1000 : false
-    },
-    select: (data) => {
-      // When agent becomes ready, update it in the agents list cache
-      if (data?.status === 'ready') {
-        qc.setQueryData<Array<AgentWithData>>(['agents'], (oldAgents) => {
-          if (!oldAgents) return oldAgents
-          return oldAgents.map((agent) => (agent.id === data.id ? data : agent))
-        })
-      }
-      return data
     },
   })
 }

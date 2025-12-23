@@ -1,8 +1,11 @@
-import { useState, useCallback, useEffect } from 'react'
-
-// ============================================================================
-// Types - Compatible with Better Auth's user schema
-// ============================================================================
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
+import type { ReactNode } from 'react'
 
 export interface User {
   id: string
@@ -57,7 +60,21 @@ const MOCK_SESSION: Session = {
 // Simulate network delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
+const AuthContext = createContext<UseAuthReturn | null>(null)
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const auth = useAuthInternal()
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
+}
+
 export function useAuth(): UseAuthReturn {
+  const context = useContext(AuthContext)
+  if (context) return context
+  // Fallback for usage outside provider (backwards compatible)
+  return useAuthInternal()
+}
+
+function useAuthInternal(): UseAuthReturn {
   const [user, setUser] = useState<User | null>(MOCK_USER)
   const [isLoading, setIsLoading] = useState(true)
 
@@ -110,23 +127,3 @@ export function useAuth(): UseAuthReturn {
     logout,
   }
 }
-
-// ============================================================================
-// Auth Context (Optional) - For app-wide auth state
-// ============================================================================
-// If you need auth state shared across components, create a context:
-//
-// import { createContext, useContext, ReactNode } from 'react'
-//
-// const AuthContext = createContext<UseAuthReturn | null>(null)
-//
-// export function AuthProvider({ children }: { children: ReactNode }) {
-//   const auth = useAuth()
-//   return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>
-// }
-//
-// export function useAuthContext() {
-//   const context = useContext(AuthContext)
-//   if (!context) throw new Error('useAuthContext must be within AuthProvider')
-//   return context
-// }
