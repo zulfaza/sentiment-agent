@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { SpinnerIcon } from '@phosphor-icons/react'
+
 import type { AgentType, CreateAgentInput } from '@/lib/data'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Dialog,
   DialogContent,
@@ -9,12 +12,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
-import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Textarea } from '@/components/ui/textarea'
 
 const PLATFORMS = [
   { id: 'x.com', label: 'X (Twitter)' },

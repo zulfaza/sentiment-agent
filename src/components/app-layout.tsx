@@ -1,5 +1,5 @@
-import { Sidebar } from '@/components/sidebar'
 import { BottomNav } from '@/components/bottom-nav'
+import { Sidebar } from '@/components/sidebar'
 
 interface AppLayoutProps {
   children: React.ReactNode

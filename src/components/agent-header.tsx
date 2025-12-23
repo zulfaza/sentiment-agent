@@ -1,4 +1,5 @@
 import { ArrowLeftIcon } from '@phosphor-icons/react'
+
 import type { AgentWithData, Platform } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'

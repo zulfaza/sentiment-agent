@@ -1,5 +1,6 @@
-import { Link, useLocation } from '@tanstack/react-router'
 import { ChartBarIcon, CreditCardIcon, UserIcon } from '@phosphor-icons/react'
+import { Link, useLocation } from '@tanstack/react-router'
+
 import { cn } from '@/lib/utils'
 
 const navItems = [

@@ -1,6 +1,6 @@
 import type { Mention, Platform, Sentiment } from '@/lib/data'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 
 const platformIcons: Record<Platform, string> = {
