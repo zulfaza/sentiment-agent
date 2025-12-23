@@ -37,7 +37,7 @@ export function SentimentChart({
           <CardTitle className="text-sm">Historical Trends</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex h-[300px] items-center justify-center">
+          <div className="flex h-75 items-center justify-center">
             <p className="text-sm text-muted-foreground">
               Analyzing sentiment data...
             </p>
@@ -54,7 +54,7 @@ export function SentimentChart({
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto w-full">
-          <div className="h-[300px] min-w-[600px]">
+          <div className="h-75 min-w-150">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={formattedTrends}
