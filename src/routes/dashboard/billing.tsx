@@ -1,55 +1,140 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/dashboard/billing')({
   component: BillingPage,
 })
 
-// Mock data
-const usageData = {
-  used: 8432,
-  limit: 10000,
-  resetDate: 'Jan 1, 2025',
+// Types
+type UsageData = {
+  used: number
+  limit: number
+  resetDate: string
 }
 
-const cardData = {
-  brand: 'Visa',
-  last4: '4242',
-  expMonth: 12,
-  expYear: 25,
+type CardData = {
+  brand: string
+  last4: string
+  expMonth: number
+  expYear: number
 }
 
-const invoices = [
-  {
-    id: '1',
-    date: 'Dec 1, 2024',
-    amount: 29.0,
-    status: 'paid' as 'paid' | 'unpaid',
-  },
-  {
-    id: '2',
-    date: 'Nov 1, 2024',
-    amount: 29.0,
-    status: 'paid' as 'paid' | 'unpaid',
-  },
-  {
-    id: '3',
-    date: 'Oct 1, 2024',
-    amount: 29.0,
-    status: 'paid' as 'paid' | 'unpaid',
-  },
-  {
-    id: '4',
-    date: 'Sep 1, 2024',
-    amount: 29.0,
-    status: 'paid' as 'paid' | 'unpaid',
-  },
-]
+type Invoice = {
+  id: string
+  date: string
+  amount: number
+  status: 'paid' | 'unpaid'
+}
+
+type BillingData = {
+  usage: UsageData
+  card: CardData
+  invoices: Invoice[]
+}
+
+// Simulated API fetch
+async function fetchBillingData(): Promise<BillingData> {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  return {
+    usage: {
+      used: 8432,
+      limit: 10000,
+      resetDate: 'Jan 1, 2025',
+    },
+    card: {
+      brand: 'Visa',
+      last4: '4242',
+      expMonth: 12,
+      expYear: 25,
+    },
+    invoices: [
+      { id: '1', date: 'Dec 1, 2024', amount: 29.0, status: 'paid' },
+      { id: '2', date: 'Nov 1, 2024', amount: 29.0, status: 'paid' },
+      { id: '3', date: 'Oct 1, 2024', amount: 29.0, status: 'paid' },
+      { id: '4', date: 'Sep 1, 2024', amount: 29.0, status: 'paid' },
+    ],
+  }
+}
+
+function useBillingData() {
+  return useQuery({
+    queryKey: ['billing'],
+    queryFn: fetchBillingData,
+  })
+}
+
+function BillingPageSkeleton() {
+  return (
+    <div className="h-full overflow-y-auto">
+      <div className="border-b px-4 py-3 md:px-6">
+        <h1 className="text-lg font-semibold">Billing</h1>
+        <p className="text-sm text-muted-foreground">
+          Manage your subscription and payment details
+        </p>
+      </div>
+      <div className="space-y-4 p-4 md:p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Usage</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <Skeleton className="h-8 w-32" />
+            <Skeleton className="h-2 w-full" />
+            <Skeleton className="h-4 w-48" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Payment Method</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-10 w-14" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-3 w-20" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Invoice History</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-0 p-0">
+            {[1, 2, 3, 4].map((i) => (
+              <div
+                key={i}
+                className="flex items-center justify-between px-4 py-3"
+              >
+                <Skeleton className="h-4 w-24" />
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-5 w-12" />
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
 
 function BillingPage() {
+  const { data, isLoading } = useBillingData()
+
+  if (isLoading || !data) {
+    return <BillingPageSkeleton />
+  }
+
+  const { usage: usageData, card: cardData, invoices } = data
   const usagePercent = Math.round((usageData.used / usageData.limit) * 100)
 
   return (
