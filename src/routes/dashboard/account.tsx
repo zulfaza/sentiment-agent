@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -25,13 +25,10 @@ export const Route = createFileRoute('/dashboard/account')({
 function AccountPage() {
   const { user, isLoading, updateProfile, logout } = useAuth()
 
-  // Loading state - show skeleton
   if (isLoading || !user) {
     return <AccountPageSkeleton />
   }
 
-  // Pass user data as key to reset form state when user changes
-  // React docs: "To reset state when a prop changes, use a key"
   return (
     <AccountForm
       key={user.id}
@@ -106,7 +103,7 @@ function AccountForm({
   const [email, setEmail] = useState(initialEmail)
   const [isSaving, setIsSaving] = useState(false)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
-
+  const navigate = useNavigate()
   async function handleSave() {
     setIsSaving(true)
     try {
@@ -120,7 +117,7 @@ function AccountForm({
     setIsLoggingOut(true)
     try {
       await onLogout()
-      // In real app: router.navigate({ to: '/login' })
+      navigate({ to: '/' })
     } finally {
       setIsLoggingOut(false)
     }
